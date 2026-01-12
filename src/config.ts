@@ -39,6 +39,7 @@ export const siteConfig = {
       company: "Work in progress...",
       title: "Lavorando duramente per riempire questa pagina....",
       dateRange: "Present - ....Future",
+      achievement: "",
     },
   ],
   education: [
@@ -46,11 +47,13 @@ export const siteConfig = {
       school: "ITS Digital Academy Mario Volpato",
       degree: "Diploma Tecnico Superiore sulla Cyber Sicurezza",
       dateRange: "2025 - 2028",
+      achievement: "",
     },
     {
       school: "I.I.S. Leonardo Da Vinci",
       degree: "Diploma di Maturità in Servizi Commerciali Web & per la community",
       dateRange: "2019 - 2025",
+      achievement: "",
     },
   ],
 };
