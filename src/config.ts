@@ -11,7 +11,21 @@ export const siteConfig = {
   },
   aboutMe:
     "Sono uno studente di Cybersecurity con una forte passione per l’informatica e le tecnologie digitali, nata fin da piccolo con i videogame e l’abitudine a smontare e riparare computer e telefoni. Questa curiosità si è trasformata in un approccio pratico orientato a capire a fondo il funzionamento dei sistemi. Sono motivato a mettere in pratica in ambito professionale le competenze che sto acquisendo nel networking e nei sistemi di rete, contribuendo ai progetti e crescendo attraverso l’esperienza sul campo.",
-  skills: ["Java", "AI", "Office", "Virtualizzazione", "GIT", "Docker", "PhpMyAdmin", "NAS", "HTML5", "CSS", "Sistemi operativi", "Networking", "Assemblaggio PC" ],
+  skills: [
+    "Java",
+    "AI",
+    "Office",
+    "Virtualizzazione",
+    "GIT",
+    "Docker",
+    "PhpMyAdmin",
+    "NAS",
+    "HTML5",
+    "CSS",
+    "Sistemi operativi",
+    "Networking",
+    "Assemblaggio PC",
+  ],
   projects: [
     {
       name: "BuildYourOwn",
