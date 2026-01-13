@@ -58,18 +58,6 @@ export const siteConfig = {
         "In cerca di opportunità per fare esperienza pratica in ambito Cybersecurity e networking.",
       ],
     },
-    {
-      company: "...",
-      title: "...",
-      dateRange: "...",
-      bullets: ["..."],
-    },
-    {
-      company: "...",
-      title: "...",
-      dateRange: "....",
-      bullets: ["..."],
-    },
   ],
   education: [
     {
