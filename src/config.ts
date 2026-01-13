@@ -42,8 +42,6 @@ export const siteConfig = {
       dateRange: "Present - ....Future",
       bullets: [ 
         "",
-        "",
-        "",
     ],
   },
   {
@@ -51,8 +49,6 @@ export const siteConfig = {
       title: "...",
       dateRange: "...",
       bullets: [
-        "...",
-        "...",
         "...",
       ],
     },
@@ -62,8 +58,6 @@ export const siteConfig = {
       dateRange: "....",
       bullets: [
         "...",
-        "...",
-        "...",
       ],
     },
   ],
@@ -72,14 +66,14 @@ export const siteConfig = {
       school: "ITS Digital Academy Mario Volpato",
       degree: "Diploma Tecnico Superiore sulla Cyber Sicurezza",
       dateRange: "2025 - 2028",
-      achievement: ["...",
+      achievements: ["...",
     ],
     },
     {
       school: "I.I.S. Leonardo Da Vinci",
       degree: "Diploma di Maturità in Servizi Commerciali Web & per la community",
       dateRange: "2019 - 2025",
-      achievement: ["...",
+      achievements: ["...",
     ],
     },
   ],
