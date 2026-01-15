@@ -74,5 +74,11 @@ export const siteConfig = {
       achievements: ["..."],
     },
   ],
+  contact: {
+    email: "turettaandrea201@gmail.com",
+    phone: "+39 331 748 8154",
+    description: "Contattami!",
+    formEndpoint: "https://formspree.io/f/mjggklaa",
+  },
 };
 
