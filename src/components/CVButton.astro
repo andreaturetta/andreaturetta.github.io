@@ -1,0 +1,81 @@
+---
+// src/components/CVButton.astro
+import { siteConfig } from "../config";
+---
+
+<a
+  href="/cv/cv.pdf"
+  download="Andrea_Turetta_CV.pdf"
+  class="cv-button"
+  style={`--accent-color: ${siteConfig.accentColor}`}
+  aria-label="Download CV"
+>
+  MY CV
+</a>
+
+<style>
+  .cv-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    margin-top: 24px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    /* Gradient semi-trasparente e lucido */
+    background: linear-gradient(
+      135deg,
+      rgba(29, 78, 216, 0.35) 0%,
+      rgba(29, 78, 216, 0.25) 50%,
+      rgba(255, 255, 255, 0.15) 100%
+    );
+    
+    /* Effetto vetro lucido */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(29, 78, 216, 0.4);
+    
+    /* Testo del colore accent */
+    color: var(--accent-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    /* Box shadow per profondità */
+    box-shadow: 0 8px 32px rgba(29, 78, 216, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .cv-button:hover {
+    /* Effetto al hover: più opaco e luminoso */
+    background: linear-gradient(
+      135deg,
+      rgba(29, 78, 216, 0.45) 0%,
+      rgba(29, 78, 216, 0.35) 50%,
+      rgba(255, 255, 255, 0.25) 100%
+    );
+    
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(29, 78, 216, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  .cv-button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 16px rgba(29, 78, 216, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .cv-button {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      margin-top: 20px;
+    }
+  }
+</style>
