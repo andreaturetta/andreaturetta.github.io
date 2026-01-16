@@ -1,22 +1,44 @@
 ---
 import { siteConfig } from "../config";
-const skills = siteConfig.skills ?? [];
 ---
 
-<section id="about" class="p-8 sm:p-12 md:p-16 lg:p-24">
-  <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
-    About Me
-  </h2>
+<section id="about" class="py-24">
+  <div class="max-w-4xl mx-auto px-6">
+    <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">
+      About Me
+    </h2>
+    
+    <div class="text-center mb-16">
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        {siteConfig.aboutMe}
+      </p>
+    </div>
 
-  <p class="mt-4 text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-600">
-    {siteConfig.aboutMe}
-  </p>
-
-  <div class="mt-6 flex flex-wrap gap-3">
-    {skills.map((skill) => (
-      <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">
-        {skill}
-      </span>
-    ))}
+    <!-- Skill Pills Animate -->
+    <div class="flex flex-wrap gap-3 justify-center">
+      {siteConfig.skills.map((skill, index) => (
+        <div 
+          key={index}
+          class="skill-pill px-6 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-semibold text-gray-800 hover:bg-[var(--accent-color)] hover:text-white hover:shadow-xl hover:-translate-y-1 hover:rotate-2 transition-all duration-500 group"
+        >
+          <span class="group-hover:scale-110 transition-transform">{skill}</span>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
+
+<style>
+  .skill-pill {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .skill-pill:nth-child(even) {
+    animation-delay: -3s;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+</style>

@@ -74,6 +74,11 @@ export const siteConfig = {
       achievements: ["..."],
     },
   ],
+  stats: {
+      projects: 3,
+      years: "2025-2028",
+      experience: "ITS Student"
+  },
   contact: {
     email: "turettaandrea201@gmail.com",
     phone: "+39 331 748 8154",
