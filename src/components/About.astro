@@ -2,43 +2,38 @@
 import { siteConfig } from "../config";
 ---
 
-<section id="about" class="py-24">
-  <div class="max-w-4xl mx-auto px-6">
-    <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">
+<section 
+  id="about" 
+  class="relative isolate overflow-hidden bg-white py-24 md:py-32"
+  style={`--accent-color: ${siteConfig.accentColor}`}
+>
+  <!-- Gradient overlay simile a Hero -->
+  <div
+    class="absolute inset-0 -z-10"
+    style={`background: radial-gradient(ellipse 800px 1200px at 50% 50%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, white 100%)`}
+  ></div>
+
+  <div class="mx-auto p-8 sm:p-12 md:p-24 max-w-7xl">
+    <!-- Titolo -->
+    <h2 class="text-pretty text-4xl sm:text-5xl font-bold tracking-tight text-gray-800 mb-8">
       About Me
     </h2>
     
-    <div class="text-center mb-16">
-      <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-        {siteConfig.aboutMe}
-      </p>
-    </div>
+    <!-- Descrizione -->
+    <p class="text-pretty text-base sm:text-lg md:text-lg/8 font-medium text-gray-600 max-w-3xl mb-16">
+      {siteConfig.aboutMe}
+    </p>
 
-    <!-- Skill Pills Animate -->
-    <div class="flex flex-wrap gap-3 justify-center">
+    <!-- Skill Pills Animate - ALLINEATE A SINISTRA -->
+    <div class="flex flex-wrap gap-4">
       {siteConfig.skills.map((skill, index) => (
         <div 
           key={index}
-          class="skill-pill px-6 py-3 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-semibold text-gray-800 hover:bg-[var(--accent-color)] hover:text-white hover:shadow-xl hover:-translate-y-1 hover:rotate-2 transition-all duration-500 group"
+          class="skill-pill group px-6 py-3 bg-white/60 backdrop-blur-sm border-2 border-gray-200 rounded-full text-sm font-semibold text-gray-800 hover:bg-[var(--accent-color)] hover:text-white hover:border-[var(--accent-color)] hover:shadow-xl transition-all duration-500"
         >
-          <span class="group-hover:scale-110 transition-transform">{skill}</span>
+          {skill}
         </div>
       ))}
     </div>
   </div>
 </section>
-
-<style>
-  .skill-pill {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .skill-pill:nth-child(even) {
-    animation-delay: -3s;
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-  }
-</style>

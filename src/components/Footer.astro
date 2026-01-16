@@ -193,12 +193,28 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
   </div>
 </footer>
 
-<script client:load>
-      // Counter animation per stats
-      document.addEventListener('DOMContentLoaded', () => {
-        const counters = document.querySelectorAll('.count');
-        const speed = 200;
+  <!-- ... il tuo footer esistente ... -->
 
-        counters.forEach(counter => {
-          const updateCount = () => {
-            const target
+  <!-- ===== SCRIPT GLOBALE client:load ===== -->
+  <script client:load>
+    // Scroll reveal animation per le sezioni
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Osserva tutte le sezioni principali
+    document.querySelectorAll('section[id]').forEach(section => {
+      section.classList.add('fade-in-up');
+      observer.observe(section);
+    });
+  </script>
+</footer>

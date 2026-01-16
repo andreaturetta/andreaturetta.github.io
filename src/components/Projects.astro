@@ -2,35 +2,56 @@
 import { siteConfig } from "../config";
 ---
 
-<section id="projects" class="py-24">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-4xl font-bold text-gray-800 mb-16 text-center">
+<section 
+  id="projects" 
+  class="relative isolate overflow-hidden bg-white py-24 md:py-32"
+  style={`--accent-color: ${siteConfig.accentColor}`}
+>
+  <!-- Gradient overlay -->
+  <div
+    class="absolute inset-0 -z-10"
+    style={`background: radial-gradient(ellipse 800px 1200px at 0% 100%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, white 100%)`}
+  ></div>
+
+  <div class="mx-auto p-8 sm:p-12 md:p-24 max-w-7xl">
+    <!-- Titolo -->
+    <h2 class="text-pretty text-4xl sm:text-5xl font-bold tracking-tight text-gray-800 mb-12">
       Projects
     </h2>
     
+    <!-- Grid di Progetti -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {siteConfig.projects.map((project, index) => (
         <a
           key={index}
           href={project.link}
           target="_blank"
-          class="project-card group bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 overflow-hidden relative"
+          rel="noopener noreferrer"
+          class="project-card group relative bg-white rounded-2xl p-8 overflow-hidden"
         >
-          <div class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <!-- Gradient background on hover -->
+          <div class="absolute inset-0 bg-gradient-to-br from-[var(--accent-color)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
           
-          <h3 class="text-xl font-bold text-gray-800 mb-4 relative z-10 group-hover:text-[var(--accent-color)]">
-            {project.name}
-          </h3>
-          <p class="text-gray-600 mb-6 relative z-10 leading-relaxed">
-            {project.description}
-          </p>
-          
-          <div class="flex flex-wrap gap-2 relative z-10">
-            {project.skills.map((skill, skillIndex) => (
-              <span key={skillIndex} class="px-3 py-1 bg-gray-100 text-xs rounded-full text-gray-700">
-                {skill}
-              </span>
-            ))}
+          <!-- Content -->
+          <div class="relative z-10">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 group-hover:text-[var(--accent-color)] transition-colors duration-300">
+              {project.name}
+            </h3>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              {project.description}
+            </p>
+            
+            <!-- Skills -->
+            <div class="flex flex-wrap gap-2">
+              {project.skills.map((skill, skillIndex) => (
+                <span 
+                  key={skillIndex} 
+                  class="px-3 py-1 bg-gray-100 text-xs font-medium rounded-full text-gray-700 group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors duration-300"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
           </div>
         </a>
       ))}

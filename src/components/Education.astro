@@ -1,48 +1,55 @@
 ---
 import { siteConfig } from "../config";
-
-const education = siteConfig.education ?? [];
-const hasEducation = education.length > 0;
 ---
 
-{hasEducation && (
-  <section id="education" class="p-8 sm:p-12 md:p-16 lg:p-24">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
+<section 
+  id="education" 
+  class="relative isolate overflow-hidden bg-white py-24 md:py-32"
+  style={`--accent-color: ${siteConfig.accentColor}`}
+>
+  <!-- Gradient overlay -->
+  <div
+    class="absolute inset-0 -z-10"
+    style={`background: radial-gradient(ellipse 800px 1200px at 50% 100%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, white 100%)`}
+  ></div>
+
+  <div class="mx-auto p-8 sm:p-12 md:p-24 max-w-7xl">
+    <!-- Titolo -->
+    <h2 class="text-pretty text-4xl sm:text-5xl font-bold tracking-tight text-gray-800 mb-12">
       Education
     </h2>
-
-    <div class="mt-8 space-y-8">
-      {education.map((edu) => {
-        const achievements = edu.achievements ?? [];
-        return (
-          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6">
-            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
-              <div>
-                <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
-                  {edu.degree}
-                </h3>
-                <p class="text-base sm:text-lg" style={`color: ${siteConfig.accentColor}`}>
-                  {edu.school}
-                </p>
-              </div>
-              <span class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-0">
-                {edu.dateRange}
-              </span>
+    
+    <!-- Timeline -->
+    <div class="space-y-8 max-w-3xl">
+      {siteConfig.education.map((edu, index) => (
+        <div 
+          key={index}
+          class="timeline-card bg-white/60 backdrop-blur-sm border-l-4 border-[var(--accent-color)] rounded-lg p-8 hover:shadow-xl transition-all duration-500"
+        >
+          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
+            <div>
+              <h3 class="text-2xl font-bold text-gray-800">{edu.degree}</h3>
+              <p class="text-lg text-[var(--accent-color)] font-semibold">{edu.school}</p>
             </div>
-
+            <span class="text-sm font-medium text-gray-500 bg-gray-100 px-4 py-2 rounded-full whitespace-nowrap">
+              {edu.dateRange}
+            </span>
+          </div>
+          
+          <!-- Achievements -->
+          {edu.achievements && edu.achievements.length > 0 && edu.achievements !== "..." && (
             <ul class="space-y-2">
-              {achievements.map((achievement) => (
-                <li class="flex items-start">
-                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0" />
-                  <span class="text-sm sm:text-base text-gray-600">
-                    {achievement}
-                  </span>
+              {edu.achievements.map((achievement, achIndex) => (
+                <li key={achIndex} class="flex gap-3 text-gray-700">
+                  <span class="text-[var(--accent-color)] font-bold">✓</span>
+                  <span>{achievement}</span>
                 </li>
               ))}
             </ul>
-          </div>
-        );
-      })}
+          )}
+        </div>
+      ))}
     </div>
-  </section>
-)}
+  </div>
+</section>
+
