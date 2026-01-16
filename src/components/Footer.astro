@@ -192,3 +192,13 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
     </svg>
   </div>
 </footer>
+
+<script client:load>
+      // Counter animation per stats
+      document.addEventListener('DOMContentLoaded', () => {
+        const counters = document.querySelectorAll('.count');
+        const speed = 200;
+
+        counters.forEach(counter => {
+          const updateCount = () => {
+            const target
