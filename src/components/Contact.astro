@@ -4,25 +4,26 @@ import { siteConfig } from "../config";
 
 <section
   id="contact"
-  class="relative isolate overflow-hidden bg-white py-24 md:py-32"
+  class="relative isolate overflow-hidden bg-white py-24 md:py-32 min-h-screen flex items-center"
   style={`--accent-color: ${siteConfig.accentColor}`}
 >
   <!-- Gradient overlay simile alla hero -->
   <div
     class="absolute inset-0 -z-10"
-    style={`background: radial-gradient(ellipse 800px 1200px at 100% 100%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 0.8) 90%, white 100%)`}
+    style={`background: radial-gradient(ellipse 1600px 1000px at 0% 50%, ${siteConfig.accentColor}25 0%, ${siteConfig.accentColor}18 25%, ${siteConfig.accentColor}10 50%, rgba(255, 255, 255, 0.2) 80%, white 100%)`}
   ></div>
 
-  <div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
-    <!-- Titolo -->
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-16 text-center">
-      Get in Touch
-    </h2>
-
-    <!-- Layout due colonne -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
-      <!-- SINISTRA: Dettagli Personali -->
-      <div class="flex flex-col justify-center space-y-8">
+  <div class="w-full max-w-none px-8 sm:px-12 md:px-24">
+    <div class="flex flex-col md:flex-row md:gap-6 lg:gap-12 w-full">
+      <!-- SINISTRA: Titolo e Dettagli Personali -->
+      <div class="flex-1 mb-8 md:mb-0">
+        <!-- Titolo -->
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 md:sticky md:top-24 mb-12">
+          Get in Touch!
+        </h2>
+        
+        <!-- Dati Personali -->
+        <div class="flex flex-col justify-center space-y-8">
         <div>
           <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
             {siteConfig.name}
@@ -84,24 +85,16 @@ import { siteConfig } from "../config";
             )
           }
         </div>
-
-        <!-- Descrizione -->
-        {
-          siteConfig.contact?.description && (
-            <p class="text-gray-600 text-lg font-medium mt-8 pt-8 border-t border-gray-200">
-              {siteConfig.contact.description}
-            </p>
-          )
-        }
+      </div>
       </div>
 
       <!-- DESTRA: Form di Contatto -->
-      <div>
+      <div class="flex-1">
         <form
           id="contactForm"
           action={siteConfig.contact?.formEndpoint}
           method="POST"
-          class="space-y-6"
+          class="space-y-6 max-w-lg"
         >
           <!-- Nome -->
           <div>

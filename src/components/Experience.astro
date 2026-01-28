@@ -4,23 +4,28 @@ import { siteConfig } from "../config";
 
 <section 
   id="experience" 
-  class="relative isolate overflow-hidden bg-white py-24 md:py-32"
+  class="relative isolate overflow-hidden bg-white py-24 md:py-32 min-h-screen flex items-center"
   style={`--accent-color: ${siteConfig.accentColor}`}
 >
   <!-- Gradient UNIFORME (stesso di About) -->
   <div
     class="absolute inset-0 -z-10"
-    style={`background: radial-gradient(ellipse 800px 1200px at 50% 50%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, white 100%)`}
+    style={`background: radial-gradient(ellipse 1600px 1000px at 0% 50%, ${siteConfig.accentColor}25 0%, ${siteConfig.accentColor}18 25%, ${siteConfig.accentColor}10 50%, rgba(255, 255, 255, 0.2) 80%, white 100%)`}
   ></div>
 
-  <div class="p-8 sm:p-12 md:p-24 max-w-7xl mx-auto">
-    <!-- Titolo -->
-    <h2 class="text-pretty text-4xl sm:text-5xl font-bold tracking-tight text-gray-800 mb-12">
-      Experience
-    </h2>
-    
-    <!-- Timeline -->
-    <div class="space-y-8 max-w-3xl">
+  <div class="p-8 sm:p-12 md:p-24 max-w-none">
+    <div class="flex flex-col md:flex-row md:gap-12 lg:gap-24">
+      <!-- Titolo a sinistra -->
+      <div class="flex-shrink-0 md:w-48 mb-8 md:mb-0">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-800 md:sticky md:top-24">
+          Experience
+        </h2>
+      </div>
+      
+      <!-- Contenuto a destra -->
+      <div class="flex-1">
+        <!-- Timeline -->
+        <div class="space-y-8">
       {siteConfig.experience.map((exp, index) => (
         <div 
           key={index}
@@ -47,6 +52,8 @@ import { siteConfig } from "../config";
           </ul>
         </div>
       ))}
+        </div>
+      </div>
     </div>
   </div>
 </section>

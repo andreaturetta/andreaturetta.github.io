@@ -31,21 +31,21 @@ export const siteConfig = {
       name: "BuildYourOwn",
       description:
         "Un configuratore di PC personalizzato che permette agli utenti di selezionare componenti compatibili e creare il computer dei loro sogni.",
-      link: "#",
+      link: "/projects/buildyourown/",
       skills: ["HTML5", "JS", "Responsive Design", "CSS"],
     },
     {
       name: "Kinder",
       description:
         "Sito web ispirato al sito del marchio Kinder. Assegnato come compito in classe.",
-      link: "#",
+      link: "/projects/kinder/",
       skills: ["HTML5", "CSS", "JS"],
     },
     {
       name: "Giornata della memoria",
       description:
         "Sito web creato in classe per celebrare la giornata della memoria.",
-      link: "#",
+      link: "/projects/giornata-memoria/",
       skills: ["HTML5", "CSS", "JS"],
     },
   ],

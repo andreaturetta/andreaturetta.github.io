@@ -5,13 +5,13 @@ import CVButton from "../components/CVButton.astro";
 
 <div
   id="hero"
-  class="relative isolate overflow-hidden bg-white py-24 md:h-screen"
+  class="relative isolate overflow-hidden bg-white py-24 md:min-h-screen"
   style={`--accent-color: ${siteConfig.accentColor}`}
 >
   <!-- Gradient overlay -->
   <div
     class="absolute inset-0 -z-10"
-    style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 0.8) 90%, white 100%)`}
+    style={`background: radial-gradient(ellipse 1600px 1000px at 0% 50%, ${siteConfig.accentColor}25 0%, ${siteConfig.accentColor}18 25%, ${siteConfig.accentColor}10 50%, rgba(255, 255, 255, 0.2) 80%, white 100%)`}
   >
   </div>
   <svg
@@ -130,7 +130,7 @@ import CVButton from "../components/CVButton.astro";
       height="100%"
       stroke-width={0}></rect>
   </svg>
-  <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex items-center">
+  <div class="h-full p-8 sm:p-12 md:p-24 flex items-center">
     <div>
       <h2
         class="text-pretty text-xl sm:text-2xl md:text-5xl font-bold tracking-tight text-gray-700 animate-fade-in"
