@@ -181,7 +181,7 @@ import { siteConfig } from "../config";
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const formData = new FormData(form);
+      const formData = new FormData(git);
       
       try {
         const response = await fetch(form.action, {

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinder - Progetto Scolastico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #f9fafb;
+            color: #1f2937;
+        }
+        
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h1 {
+            color: #1d4ed8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        
+        .project-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .skill-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #1d4ed8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .status {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="back-link">← Torna al portfolio</a>
+            <h1>Kinder</h1>
+            <p class="subtitle">Progetto scolastico ispirato al marchio Kinder</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="status">
+            <strong>Nota:</strong> Questo è un progetto assegnato come compito in classe. I file sorgente verranno aggiornati presto.
+        </div>
+        
+        <div class="project-info">
+            <h2>Descrizione del progetto</h2>
+            <p>Sito web ispirato al sito del marchio Kinder, realizzato come esercitazione scolastica per imparare le tecnologie web fundamentali.</p>
+            
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Tecnologie utilizzate</h3>
+            <div class="skills">
+                <span class="skill-tag">HTML5</span>
+                <span class="skill-tag">CSS</span>
+                <span class="skill-tag">JavaScript</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
