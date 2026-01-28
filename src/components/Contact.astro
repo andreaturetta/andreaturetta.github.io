@@ -177,14 +177,17 @@ import { siteConfig } from "../config";
   const form = document.getElementById("contactForm");
   const successMessage = document.getElementById("successMessage");
 
-  if (form) {
+  if (form instanceof HTMLFormElement) {
+    const successEl = successMessage instanceof HTMLElement ? successMessage : null;
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const formData = new FormData(git);
-      
+      const formData = new FormData(form);
+
       try {
-        const response = await fetch(form.action, {
+        const action = form.action || form.getAttribute("action") || "";
+        const response = await fetch(action, {
           method: "POST",
           body: formData,
           headers: {
@@ -193,11 +196,11 @@ import { siteConfig } from "../config";
         });
 
         if (response.ok) {
-          successMessage.classList.remove("hidden");
+          if (successEl) successEl.classList.remove("hidden");
           form.reset();
 
           setTimeout(() => {
-            successMessage.classList.add("hidden");
+            if (successEl) successEl.classList.add("hidden");
           }, 3000);
         }
       } catch (error) {
