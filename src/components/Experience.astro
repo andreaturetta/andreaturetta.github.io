@@ -1,60 +1,205 @@
 ---
-import { siteConfig } from "../config";
+import Badge from "./Badge.astro";
+import Section from "./Section.astro";
+import type { Lang } from "../data/types";
+import { homeContent, homeSection } from "../lib/home";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const section = homeSection(lang, "experience");
+const { experience } = homeContent(lang);
 ---
 
-<section 
-  id="experience" 
-  class="relative isolate overflow-hidden bg-white py-24 md:py-32 min-h-screen flex items-center"
-  style={`--accent-color: ${siteConfig.accentColor}`}
->
-  <!-- Gradient UNIFORME (stesso di About) -->
-  <div
-    class="absolute inset-0 -z-10"
-    style={`background: radial-gradient(ellipse 1600px 1000px at 0% 50%, ${siteConfig.accentColor}25 0%, ${siteConfig.accentColor}18 25%, ${siteConfig.accentColor}10 50%, rgba(255, 255, 255, 0.2) 80%, white 100%)`}
-  ></div>
-
-  <div class="p-8 sm:p-12 md:p-24 max-w-none">
-    <div class="flex flex-col md:flex-row md:gap-12 lg:gap-24">
-      <!-- Titolo a sinistra -->
-      <div class="flex-shrink-0 md:w-48 mb-8 md:mb-0">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-800 md:sticky md:top-24">
-          Experience
-        </h2>
-      </div>
-      
-      <!-- Contenuto a destra -->
-      <div class="flex-1">
-        <!-- Timeline -->
-        <div class="space-y-8">
-      {siteConfig.experience.map((exp, index) => (
-        <div 
-          key={index}
-          class="timeline-card bg-white/60 backdrop-blur-sm border-l-4 border-[var(--accent-color)] rounded-lg p-8 hover:shadow-xl transition-all duration-500"
-        >
-          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
-            <div>
-              <h3 class="text-2xl font-bold text-gray-800">{exp.title}</h3>
-              <p class="text-lg text-[var(--accent-color)] font-semibold">{exp.company}</p>
+{
+  section && (
+    <Section section={section}>
+      <ol class="tl">
+        {experience.map((e) => (
+          <li class:list={["tl__item", e.current && "is-current"]}>
+            <p class="tl__date">{e.period}</p>
+            <div class="tl__rail" aria-hidden="true" />
+            <div class="tl__body">
+              <div class="tl__head">
+                <h3 class="tl__role">{e.role}</h3>
+                {e.current && <Badge lang={lang} kind="current" />}
+                {e.draft && <Badge lang={lang} kind="draft" />}
+              </div>
+              <p class="tl__company">{e.company}</p>
+              {e.bullets.length > 0 && (
+                <ul class="tl__bullets">
+                  {e.bullets.map((b) => (
+                    <li>{b}</li>
+                  ))}
+                </ul>
+              )}
             </div>
-            <span class="text-sm font-medium text-gray-500 bg-gray-100 px-4 py-2 rounded-full whitespace-nowrap">
-              {exp.dateRange}
-            </span>
-          </div>
-          
-          <!-- Bullets -->
-          <ul class="space-y-3">
-            {exp.bullets.map((bullet, bulletIndex) => (
-              <li key={bulletIndex} class="flex gap-3 text-gray-700">
-                <span class="text-[var(--accent-color)] font-bold mt-1">•</span>
-                <span>{bullet}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+          </li>
+        ))}
+      </ol>
+    </Section>
+  )
+}
 
+<style>
+  .tl {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tl__item {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    grid-template-areas:
+      "rail date"
+      "rail body";
+    column-gap: var(--space-4);
+  }
+
+  .tl__date {
+    grid-area: date;
+    margin: 0 0 var(--space-2);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--text-muted);
+  }
+
+  .tl__rail {
+    grid-area: rail;
+    position: relative;
+  }
+
+  /* La linea verticale unisce i punti: parte dal primo e si ferma all'ultimo. */
+  .tl__rail::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-0.5px);
+    background: var(--border-strong);
+  }
+
+  .tl__item:first-child .tl__rail::before {
+    top: 10px;
+  }
+
+  .tl__item:last-child .tl__rail::before {
+    bottom: auto;
+    height: 10px;
+  }
+
+  .tl__item:only-child .tl__rail::before {
+    display: none;
+  }
+
+  .tl__rail::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    border: 2px solid var(--border-strong);
+    border-radius: 50%;
+    background: var(--bg);
+  }
+
+  .is-current .tl__rail::after {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .tl__body {
+    grid-area: body;
+    padding-bottom: var(--space-12);
+  }
+
+  .tl__item:last-child .tl__body {
+    padding-bottom: 0;
+  }
+
+  .tl__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .tl__role {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .tl__company {
+    margin: 2px 0 var(--space-4);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .tl__bullets {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 68ch;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tl__bullets li {
+    position: relative;
+    padding-left: var(--space-5);
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--text-body);
+  }
+
+  .tl__bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.82em;
+    width: 7px;
+    height: 1px;
+    background: var(--text-subtle);
+  }
+
+  @media (min-width: 768px) {
+    .tl__item {
+      grid-template-columns: 128px 24px minmax(0, 1fr);
+      grid-template-areas: "date rail body";
+      column-gap: var(--space-5);
+    }
+
+    .tl__date {
+      margin: 0;
+      line-height: 28px;
+      text-align: right;
+    }
+
+    .tl__rail::after {
+      top: 8px;
+    }
+
+    .tl__item:first-child .tl__rail::before {
+      top: 14px;
+    }
+
+    .tl__item:last-child .tl__rail::before {
+      height: 14px;
+    }
+  }
+</style>

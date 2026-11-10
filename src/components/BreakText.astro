@@ -1,0 +1,10 @@
+---
+// Indirizzi lunghi (email, URL): possono andare a capo solo prima di "@" e "/", mai a metà parola.
+interface Props {
+  text: string;
+}
+
+const parts = Astro.props.text.split(/(?=[@/])/);
+---
+
+{parts.map((part, i) => (<>{i > 0 && <wbr />}{part}</>))}

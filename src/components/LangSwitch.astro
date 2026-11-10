@@ -1,0 +1,103 @@
+---
+import { content, otherLang } from "../data";
+import type { Lang } from "../data/types";
+
+interface Props {
+  lang: Lang;
+  /** La stessa pagina nell'altra lingua. */
+  altPath: string;
+  isHome?: boolean;
+}
+
+const { lang, altPath, isHome = false } = Astro.props;
+const other = otherLang(lang);
+const { ui } = content[lang];
+const langs: Lang[] = ["it", "en"];
+
+// Sulla home lo script sotto aggiunge l'ancora della sezione che si sta leggendo, con gli id dell'altra lingua.
+const sectionIds = isHome
+  ? JSON.stringify(Object.fromEntries(Object.entries(content[other].sections).map(([key, s]) => [key, s.id])))
+  : undefined;
+---
+
+<div class="lang" role="group" aria-label={ui.language}>
+  {
+    langs.map((l) =>
+      l === lang ? (
+        <span class="lang__opt is-current" aria-current="true">
+          {l.toUpperCase()}
+        </span>
+      ) : (
+        <a
+          class="lang__opt"
+          href={altPath}
+          hreflang={other}
+          lang={other}
+          aria-label={`${ui.switchLanguage} (${other.toUpperCase()})`}
+          data-section-ids={sectionIds}
+        >
+          {l.toUpperCase()}
+        </a>
+      ),
+    )
+  }
+</div>
+
+<script>
+  // La sezione si calcola al momento del clic dalla posizione delle sezioni: niente osservatori né
+  // ascoltatori dello scroll. Senza JS il link porta comunque all'inizio della home nell'altra lingua.
+  const link = document.querySelector<HTMLAnchorElement>("a[data-section-ids]");
+  link?.addEventListener("click", () => {
+    const ids: Record<string, string> = JSON.parse(link.dataset.sectionIds ?? "{}");
+    const root = document.documentElement;
+    const bar = document.querySelector("[data-site-header]")?.getBoundingClientRect().bottom ?? 0;
+    // Dopo un salto a un'ancora la sezione inizia a scroll-padding-top, che è poco sotto la barra.
+    const line = Math.max(bar, parseFloat(getComputedStyle(root).scrollPaddingTop) || 0) + 2;
+    const current = Array.from(document.querySelectorAll<HTMLElement>("[data-section]")).find((s) => {
+      const r = s.getBoundingClientRect();
+      return r.top <= line && r.bottom > line;
+    });
+    const url = new URL(link.href);
+    url.hash = (current && ids[current.dataset.section ?? ""]) || "";
+    link.href = url.href;
+  });
+</script>
+
+<style>
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .lang__opt {
+    display: inline-grid;
+    place-items: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 var(--space-2);
+    border-radius: 5px;
+    line-height: 1;
+    color: var(--text-subtle);
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease;
+  }
+
+  a.lang__opt:hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+
+  .is-current {
+    background: var(--surface-2);
+    color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--border-strong);
+  }
+</style>

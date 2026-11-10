@@ -1,0 +1,251 @@
+---
+import Badge from "./Badge.astro";
+import Icon from "./Icon.astro";
+import Base from "../layouts/Base.astro";
+import { content, homePath, otherLang, projectPath } from "../data";
+import type { Lang, Project } from "../data/types";
+import { homeContent } from "../lib/home";
+
+interface Props {
+  lang: Lang;
+  project: Project;
+}
+
+const { lang, project } = Astro.props;
+const c = content[lang];
+const { ui } = c;
+const detail = project.detail ?? {};
+const other = otherLang(lang);
+// Se nell'altra lingua il Progetto è ancora una bozza, il selettore porta alla home di quella lingua.
+const translated = homeContent(other).projects.some((p) => p.slug === project.slug && p.detail);
+const altPath = translated ? projectPath(other, project.slug) : homePath(other);
+const work = detail.work ?? [];
+const images = detail.images ?? [];
+---
+
+<Base
+  lang={lang}
+  title={`${project.name} | ${c.name}`}
+  description={project.summary}
+  path={projectPath(lang, project.slug)}
+  altPath={altPath}
+  translated={translated}
+>
+  <article class="wrap project" aria-labelledby="project-title">
+    <a class="back" href={`${homePath(lang)}#${c.sections.projects.id}`}>
+      <Icon name="arrowLeft" size={16} />
+      {ui.allProjects}
+    </a>
+
+    <h1 id="project-title" class="project__title">{project.name}</h1>
+    <p class="project__meta">
+      <span>{project.kind}</span>
+      {project.draft && <Badge lang={lang} kind="draft" />}
+    </p>
+    <p class="project__summary">{project.summary}</p>
+
+    {
+      detail.problem && (
+        <section class="part" aria-labelledby="part-problem">
+          <h2 id="part-problem" class="part__title">
+            {ui.problem}
+          </h2>
+          <p class="part__text">{detail.problem}</p>
+        </section>
+      )
+    }
+
+    {
+      work.length > 0 && (
+        <section class="part" aria-labelledby="part-work">
+          <h2 id="part-work" class="part__title">
+            {ui.work}
+          </h2>
+          <ul class="part__list">
+            {work.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      project.tags.length > 0 && (
+        <section class="part" aria-labelledby="part-tech">
+          <h2 id="part-tech" class="part__title">
+            {ui.technologies}
+          </h2>
+          <ul class="tags">
+            {project.tags.map((t) => (
+              <li>{t}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      detail.result && (
+        <section class="part" aria-labelledby="part-result">
+          <h2 id="part-result" class="part__title">
+            {ui.result}
+          </h2>
+          <p class="part__text">{detail.result}</p>
+        </section>
+      )
+    }
+
+    {
+      images.length > 0 && (
+        <section class="part" aria-labelledby="part-shots">
+          <h2 id="part-shots" class="part__title">
+            {ui.screenshots}
+          </h2>
+          <div class="shots">
+            {images.map((img) => (
+              <img class="shot" src={img.src} alt={img.alt} loading="lazy" decoding="async" />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .project {
+    padding-top: var(--space-12);
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 32px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+  }
+
+  .back:hover {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .project__title {
+    margin: var(--space-8) 0 0;
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--text);
+    text-wrap: balance;
+  }
+
+  .project__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin: var(--space-4) 0 0;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--text-subtle);
+  }
+
+  .project__summary {
+    max-width: 60ch;
+    margin: var(--space-6) 0 var(--space-12);
+    font-size: clamp(17px, 1.8vw, 20px);
+    line-height: 1.6;
+    color: var(--text-body);
+    text-wrap: pretty;
+  }
+
+  .part {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-8) 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .part__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .part__text {
+    max-width: 68ch;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-body);
+  }
+
+  .part__list {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 68ch;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .part__list li {
+    position: relative;
+    padding-left: var(--space-5);
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text-body);
+  }
+
+  .part__list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.82em;
+    width: 7px;
+    height: 1px;
+    background: var(--text-subtle);
+  }
+
+  .part .tags {
+    align-self: start;
+  }
+
+  .shots {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  /* Proporzione fissa: lo spazio è riservato prima che l'immagine arrivi, niente salti di layout. */
+  .shot {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+  }
+
+  @media (min-width: 768px) {
+    .part {
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .shots {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

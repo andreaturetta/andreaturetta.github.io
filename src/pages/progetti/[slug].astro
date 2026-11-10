@@ -1,0 +1,13 @@
+---
+import ProjectPage from "../../components/ProjectPage.astro";
+import type { Project } from "../../data/types";
+import { projectPaths } from "../../lib/home";
+
+export function getStaticPaths() {
+  return projectPaths("it");
+}
+
+const { project } = Astro.props as { project: Project };
+---
+
+<ProjectPage lang="it" project={project} />

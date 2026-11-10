@@ -1,47 +1,176 @@
 ---
-import { siteConfig } from "../config";
+import Badge from "./Badge.astro";
+import Section from "./Section.astro";
+import { content } from "../data";
+import type { Lang } from "../data/types";
+import { homeContent, homeSection } from "../lib/home";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = content[lang];
+const section = homeSection(lang, "about");
+const { experience } = homeContent(lang);
+const edu = c.education.find((e) => e.current) ?? c.education[0];
+const exp = experience.find((e) => e.current) ?? experience[0];
 ---
 
-<section 
-  id="about" 
-  class="relative isolate overflow-hidden bg-white py-24 md:py-32 min-h-screen flex items-center"
-  style={`--accent-color: ${siteConfig.accentColor}`}
->
-  <!-- Gradient UNIFORME -->
-  <div
-    class="absolute inset-0 -z-10"
-    style={`background: radial-gradient(ellipse 1600px 1000px at 0% 50%, ${siteConfig.accentColor}25 0%, ${siteConfig.accentColor}18 25%, ${siteConfig.accentColor}10 50%, rgba(255, 255, 255, 0.2) 80%, white 100%)`}
-  ></div>
-
-  <div class="p-8 sm:p-12 md:p-24 max-w-none">
-    <div class="flex flex-col md:flex-row md:gap-12 lg:gap-24">
-      <!-- Titolo a sinistra -->
-      <div class="flex-shrink-0 md:w-48 mb-8 md:mb-0">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-800 md:sticky md:top-24">
-          About Me
-        </h2>
-      </div>
-      
-      <!-- Contenuto a destra -->
-      <div class="flex-1">
-        <!-- Descrizione -->
-        <p class="text-pretty text-base sm:text-lg md:text-lg/8 font-medium text-gray-600 mb-16">
-          {siteConfig.aboutMe}
-        </p>
-
-        <!-- Skill Pills Animate -->
-        <div class="flex flex-wrap gap-4">
-      {siteConfig.skills.map((skill, index) => (
-        <div 
-          key={index}
-          class="skill-pill group px-6 py-3 bg-white/60 backdrop-blur-sm border-2 border-gray-200 rounded-full text-sm font-semibold text-gray-800 hover:bg-[var(--accent-color)] hover:text-white hover:border-[var(--accent-color)] hover:shadow-xl transition-all duration-500"
-        >
-          {skill}
-        </div>
-      ))}
+{
+  section && (
+    <Section section={section}>
+      <div class="about">
+        <p class="about__text">{c.about}</p>
+        <div class="facts">
+          <h3 class="label facts__title">{c.ui.inBrief}</h3>
+          <dl class="facts__list">
+            {edu && (
+              <div class="fact">
+                <dt>{c.ui.factEducation}</dt>
+                <dd>
+                  {edu.school}
+                  <span class="fact__meta">{edu.period}</span>
+                </dd>
+              </div>
+            )}
+            {exp && (
+              <div class="fact">
+                <dt>{c.ui.factInternship}</dt>
+                <dd>
+                  {`${exp.role} ${c.ui.at} ${exp.company}`}
+                  <span class="fact__meta">
+                    {exp.period}
+                    {exp.current && <Badge lang={lang} kind="current" />}
+                  </span>
+                </dd>
+              </div>
+            )}
+            <div class="fact">
+              <dt>{c.ui.factLanguages}</dt>
+              <dd>{c.languages}</dd>
+            </div>
+          </dl>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </Section>
+  )
+}
 
+<style>
+  .about {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .about__text {
+    margin: 0;
+    max-width: 65ch;
+    font-size: clamp(17px, 1.6vw, 19px);
+    line-height: 1.7;
+    color: var(--text-body);
+    text-wrap: pretty;
+  }
+
+  .facts {
+    padding: var(--space-6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+
+  .facts__title {
+    margin-bottom: var(--space-2);
+  }
+
+  .facts__list {
+    display: grid;
+    margin: 0;
+  }
+
+  .fact {
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .fact:first-child {
+    border-top: 0;
+  }
+
+  .fact:last-child {
+    padding-bottom: 0;
+  }
+
+  .fact dt {
+    margin-bottom: var(--space-1);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+  }
+
+  .fact dd {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--text);
+  }
+
+  .fact__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 768px) {
+    .facts__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .fact {
+      padding: 0 var(--space-5);
+      border-top: 0;
+      border-left: 1px solid var(--border);
+    }
+
+    .fact:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .about {
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: var(--space-16);
+      align-items: start;
+    }
+
+    .facts__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .fact {
+      padding: var(--space-4) 0;
+      border-left: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .fact:first-child {
+      border-top: 0;
+    }
+
+    .fact:last-child {
+      padding-bottom: 0;
+    }
+  }
+</style>

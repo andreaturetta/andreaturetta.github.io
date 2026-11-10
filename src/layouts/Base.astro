@@ -1,0 +1,76 @@
+---
+// Caratteri ospitati sul sito stesso: nessuna richiesta a Google o ad altre terze parti.
+import "@fontsource-variable/inter";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { content, otherLang } from "../data";
+import type { Lang } from "../data/types";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Percorso di questa pagina, es. `/progetti/inventario-dispositivi/`. */
+  path: string;
+  /** Percorso della stessa pagina nell'altra lingua (dove porta il selettore IT/EN). */
+  altPath: string;
+  /** false quando `altPath` non è una traduzione di questa pagina: niente link hreflang. */
+  translated?: boolean;
+  isHome?: boolean;
+}
+
+const { lang, title, description, path, altPath, translated = true, isHome = false } = Astro.props;
+const other = otherLang(lang);
+const { ui } = content[lang];
+const absolute = (p: string) => new URL(p, Astro.site).href;
+const pathFor: Record<Lang, string> = { [lang]: path, [other]: altPath } as Record<Lang, string>;
+const locale: Record<Lang, string> = { it: "it_IT", en: "en_US" };
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={absolute(path)} />
+    {
+      translated && (
+        <>
+          <link rel="alternate" hreflang="it" href={absolute(pathFor.it)} />
+          <link rel="alternate" hreflang="en" href={absolute(pathFor.en)} />
+          <link rel="alternate" hreflang="x-default" href={absolute(pathFor.it)} />
+        </>
+      )
+    }
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={absolute(path)} />
+    <meta property="og:locale" content={locale[lang]} />
+    <meta property="og:locale:alternate" content={locale[other]} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      // Applica il tema salvato prima del primo disegno, così la pagina non lampeggia nel tema sbagliato.
+      (function () {
+        var theme = "dark";
+        try {
+          if (localStorage.getItem("theme") === "light") theme = "light";
+        } catch (e) {}
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{ui.skipToContent}</a>
+    <Header lang={lang} altPath={altPath} isHome={isHome} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} path={path} />
+  </body>
+</html>

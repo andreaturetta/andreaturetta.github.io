@@ -1,0 +1,48 @@
+---
+import type { HomeSection } from "../lib/home";
+
+interface Props {
+  section: HomeSection;
+}
+
+const { section } = Astro.props;
+const titleId = `${section.id}-title`;
+---
+
+<section id={section.id} data-section={section.key} class="section" aria-labelledby={titleId}>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-index" aria-hidden="true">{section.index}</span>
+      <h2 id={titleId} class="sec-head__title">{section.label}</h2>
+    </div>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    margin-bottom: clamp(var(--space-8), 4vw, var(--space-12));
+  }
+
+  /* Filetto pieno a destra del titolo, sulla stessa riga. */
+  .sec-head::after {
+    content: "";
+    flex: 1;
+    min-width: var(--space-6);
+    height: 1px;
+    align-self: center;
+    background: var(--border);
+  }
+
+  .sec-head__title {
+    margin: 0;
+    font-size: clamp(26px, 3.4vw, 36px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--text);
+  }
+</style>

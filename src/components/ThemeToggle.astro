@@ -1,0 +1,71 @@
+---
+import Icon from "./Icon.astro";
+import { content } from "../data";
+import type { Lang } from "../data/types";
+
+interface Props {
+  lang: Lang;
+}
+
+const { ui } = content[Astro.props.lang];
+---
+
+<button type="button" class="theme-toggle" data-theme-toggle aria-label={ui.toggleTheme}>
+  <span class="icon icon--sun"><Icon name="sun" /></span>
+  <span class="icon icon--moon"><Icon name="moon" /></span>
+</button>
+
+<script>
+  const button = document.querySelector("[data-theme-toggle]");
+  button?.addEventListener("click", () => {
+    const root = document.documentElement;
+    const next = root.dataset.theme === "light" ? "dark" : "light";
+    root.dataset.theme = next;
+    // Con lo storage bloccato la scelta vale solo finché la pagina resta aperta.
+    try {
+      localStorage.setItem("theme", next);
+    } catch {}
+  });
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--text);
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+  }
+
+  /* Senza JS lo script in <head> non imposta data-theme e il pulsante non servirebbe. */
+  :global(html:not([data-theme])) .theme-toggle {
+    display: none;
+  }
+
+  .icon {
+    display: inline-flex;
+  }
+
+  .icon--moon,
+  :global(html[data-theme="light"]) .icon--sun {
+    display: none;
+  }
+
+  :global(html[data-theme="light"]) .icon--moon {
+    display: inline-flex;
+  }
+</style>
