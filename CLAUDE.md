@@ -1,64 +1,25 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Portfolio personale di Andrea Turetta, in italiano su `/` e in inglese su `/en/`. Astro 5, Tailwind CSS v4 e GitHub Pages. È pensato per il **Selezionatore**; i termini del dominio sono in `GLOSSARY.md` e le decisioni in `docs/adr/`.
 
-## Project Overview
+## Contenuti
 
-This is a modern, minimalist portfolio template built with Astro and Tailwind CSS v4. It's designed to be easily customizable through a single configuration file while maintaining a clean, professional appearance.
+- Tutti i testi stanno in `src/data/it.ts` e `src/data/en.ts`, che hanno la stessa forma (`src/data/types.ts`). Ogni modifica di contenuto va fatta in entrambe le lingue. I testi inglesi sono traduzioni da far rivedere ad Andrea.
+- Una voce con `draft: "<motivo>"` è una **bozza**: si vede con `npm run dev` ed è esclusa dalla build di produzione (`published()` in `src/data/index.ts`). Un contenuto incompleto resta bozza finché non è pronto. Online va solo testo definitivo.
+- La **riservatezza** vale per ogni Esperienza e ogni Progetto (`docs/adr/0001-riservatezza-contenuti.md`): descrizioni generiche, mai nomi di server, domini, IP, numeri di macchine o versioni. Un Progetto fatto per un'azienda o un cliente resta bozza finché non c'è il loro permesso.
+- Le sezioni hanno una chiave comune (`SectionKey`) e un `id` per lingua. Il selettore IT/EN usa la chiave per portare alla stessa sezione nell'altra lingua, quindi una sezione nuova va aggiunta con la chiave in `types.ts` e l'`id` in tutte e due le lingue.
+- Il CV italiano è `public/cv.pdf`. Il sito inglese scarica lo stesso PDF con l'etichetta «Download CV (Italian)» finché `en.ts` non punta a un CV inglese.
 
-## Tech Stack
+## Privacy
 
-- **Astro**: Static site generator
-- **Tailwind CSS v4**: Utility-first CSS framework using the new @tailwindcss/vite plugin
-- **TypeScript**: For type-safe configuration
-- **Tabler Icons**: Icon library
+L'informativa (`src/components/PrivacyPage.astro`, in italiano e in inglese) dichiara che il sito non usa cookie, statistiche, moduli o risorse di terze parti (i font sono in locale, da `@fontsource`) e che salva solo la scelta del tema nel `localStorage`. Se una modifica cambia una di queste cose, aggiorna l'informativa nella stessa modifica.
 
-## Development Commands
+## Grafica
 
-```bash
-npm run dev       # Start development server
-npm run build     # Build for production
-npm run preview   # Preview production build
-```
+La grafica viene dalla variante A del prototipo, salvata sul branch `prototype/home-varianti`. Il tema predefinito è scuro, quello chiaro è disponibile; c'è un solo colore di accento, Inter per i testi e JetBrains Mono per le etichette. Prima di dare per finita una modifica al sito applica la skill `web-compliance-and-anti-ai-look`.
 
-## Architecture
+## Verifica e pubblicazione
 
-The project follows a component-based architecture with all customization centralized in `src/config.ts`:
-
-- **Components** (`src/components/`): Individual Astro components for each section (Hero, About, Projects, Experience, Education, Header, Footer)
-- **Main Layout** (`src/pages/index.astro`): Single-page layout that imports all components
-- **Configuration** (`src/config.ts`): Single source of truth for all content and customization
-
-### Key Architectural Decisions
-
-1. **Single Configuration File**: All content is managed through `src/config.ts` to make customization simple
-2. **Conditional Rendering**: Sections automatically hide if their data is removed from the config
-3. **Component Independence**: Each section is a self-contained component that reads from the config
-4. **Accent Color System**: Single `accentColor` in config propagates throughout the site via CSS custom properties
-
-## Important Implementation Details
-
-- The site uses Tailwind CSS v4 with the Vite plugin configuration
-- No linting or testing framework is currently configured
-- All components are in `.astro` format (not React/Vue/etc)
-- The project uses IBM Plex Mono font loaded from Google Fonts
-- Social links in the config are all optional and will conditionally render
-
-## Working with Components
-
-When modifying components:
-1. Components read directly from the imported `siteConfig` object
-2. Use Tailwind utility classes for styling
-3. Maintain the existing monospace font aesthetic
-4. Use Tabler Icons for consistency with existing icons
-
-## Configuration Structure
-
-The `src/config.ts` exports a `siteConfig` object with these sections:
-- Basic info: name, title, description, accentColor
-- Social links: email, linkedin, twitter, github (all optional)
-- aboutMe: string
-- skills: string[]
-- projects: array of {name, description, link, skills}
-- experience: array of {company, title, dateRange, bullets}
-- education: array of {school, degree, dateRange, achievements}
+- Il repo non ha test. Una modifica è verificata quando `npm run build` termina senza errori e la pagina è stata controllata nel browser: IT ed EN, tema scuro e chiaro, larghezze 390 e 1440.
+- Ogni push su `master` pubblica il sito (`.github/workflows/main.yml`). Il lavoro si fa su un altro branch.
+- I commenti nel codice sono in italiano, brevi, e spiegano solo il perché di una scelta.

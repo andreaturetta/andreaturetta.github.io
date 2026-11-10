@@ -1,62 +1,101 @@
 ---
-import { siteConfig } from "../config";
+import Badge from "./Badge.astro";
+import Section from "./Section.astro";
+import { content } from "../data";
+import type { Lang } from "../data/types";
+import { homeSection } from "../lib/home";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { education } = content[lang];
+const section = homeSection(lang, "education");
 ---
 
-<section 
-  id="education" 
-  class="relative isolate overflow-hidden bg-white py-24 md:py-32 min-h-screen flex items-center"
-  style={`--accent-color: ${siteConfig.accentColor}`}
->
-  <!-- Gradient UNIFORME (stesso di About) -->
-  <div
-    class="absolute inset-0 -z-10"
-    style={`background: radial-gradient(ellipse 1600px 1000px at 0% 50%, ${siteConfig.accentColor}25 0%, ${siteConfig.accentColor}18 25%, ${siteConfig.accentColor}10 50%, rgba(255, 255, 255, 0.2) 80%, white 100%)`}
-  ></div>
-
-  <div class="p-8 sm:p-12 md:p-24 max-w-none">
-    <div class="flex flex-col md:flex-row md:gap-12 lg:gap-24">
-      <!-- Titolo a sinistra -->
-      <div class="flex-shrink-0 md:w-48 mb-8 md:mb-0">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-800 md:sticky md:top-24">
-          Education
-        </h2>
-      </div>
-      
-      <!-- Contenuto a destra -->
-      <div class="flex-1">
-        <!-- Timeline -->
-        <div class="space-y-8">
-      {siteConfig.education.map((edu, index) => (
-        <div 
-          key={index}
-          class="timeline-card bg-white/60 backdrop-blur-sm border-l-4 border-[var(--accent-color)] rounded-lg p-8 hover:shadow-xl transition-all duration-500"
-        >
-          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
-            <div>
-              <h3 class="text-2xl font-bold text-gray-800">{edu.degree}</h3>
-              <p class="text-lg text-[var(--accent-color)] font-semibold">{edu.school}</p>
+{
+  section && (
+    <Section section={section}>
+      <ol class="edu">
+        {education.map((ed) => (
+          <li class="edu__row">
+            <p class="edu__period">{ed.period}</p>
+            <div class="edu__main">
+              <h3 class="edu__degree">{ed.degree}</h3>
+              <p class="edu__school">{ed.school}</p>
             </div>
-            <span class="text-sm font-medium text-gray-500 bg-gray-100 px-4 py-2 rounded-full whitespace-nowrap">
-              {edu.dateRange}
-            </span>
-          </div>
-          
-          <!-- Achievements -->
-          {edu.achievements && edu.achievements.length > 0 && edu.achievements !== "..." && (
-            <ul class="space-y-2">
-              {edu.achievements.map((achievement, achIndex) => (
-                <li key={achIndex} class="flex gap-3 text-gray-700">
-                  <span class="text-[var(--accent-color)] font-bold">✓</span>
-                  <span>{achievement}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+            {ed.current && (
+              <div class="edu__badge">
+                <Badge lang={lang} kind="current" />
+              </div>
+            )}
+          </li>
+        ))}
+      </ol>
+    </Section>
+  )
+}
 
+<style>
+  .edu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .edu__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .edu__period {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--text-muted);
+  }
+
+  .edu__degree {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .edu__school {
+    margin: 2px 0 0;
+    font-size: 15px;
+    color: var(--text-muted);
+  }
+
+  .edu__badge {
+    justify-self: start;
+    margin-top: var(--space-1);
+  }
+
+  @media (min-width: 768px) {
+    .edu__row {
+      grid-template-columns: 128px minmax(0, 1fr) auto;
+      column-gap: var(--space-16);
+      align-items: start;
+    }
+
+    .edu__period {
+      line-height: 28px;
+    }
+
+    .edu__badge {
+      justify-self: end;
+      margin-top: 3px;
+    }
+  }
+</style>

@@ -1,0 +1,98 @@
+---
+import Section from "./Section.astro";
+import { content } from "../data";
+import type { Lang } from "../data/types";
+import { homeSection } from "../lib/home";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { skills } = content[lang];
+const section = homeSection(lang, "skills");
+---
+
+{
+  section && (
+    <Section section={section}>
+      <div class="skills">
+        {skills.map((group) => (
+          <div class="skill">
+            <div class="skill__head">
+              <h3 class="skill__area">{group.area}</h3>
+              <span class="skill__count" aria-hidden="true">
+                {String(group.items.length).padStart(2, "0")}
+              </span>
+            </div>
+            <ul class="skill__list">
+              {group.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </Section>
+  )
+}
+
+<style>
+  .skills {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-10) var(--space-8);
+  }
+
+  .skill__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border-strong);
+  }
+
+  .skill__area {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .skill__count {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-subtle);
+  }
+
+  .skill__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .skill__list li {
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-body);
+  }
+
+  .skill__list li:last-child {
+    border-bottom: 0;
+  }
+
+  @media (min-width: 640px) {
+    .skills {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .skills {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

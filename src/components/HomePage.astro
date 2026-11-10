@@ -1,0 +1,36 @@
+---
+import About from "./About.astro";
+import Contact from "./Contact.astro";
+import Education from "./Education.astro";
+import Experience from "./Experience.astro";
+import Hero from "./Hero.astro";
+import Projects from "./Projects.astro";
+import Skills from "./Skills.astro";
+import Base from "../layouts/Base.astro";
+import { content, homePath, otherLang } from "../data";
+import type { Lang } from "../data/types";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = content[lang];
+---
+
+<Base
+  lang={lang}
+  title={`${c.name} | ${c.title}`}
+  description={c.description}
+  path={homePath(lang)}
+  altPath={homePath(otherLang(lang))}
+  isHome
+>
+  <Hero lang={lang} />
+  <About lang={lang} />
+  <Experience lang={lang} />
+  <Projects lang={lang} />
+  <Skills lang={lang} />
+  <Education lang={lang} />
+  <Contact lang={lang} />
+</Base>

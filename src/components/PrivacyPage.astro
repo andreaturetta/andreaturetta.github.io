@@ -1,0 +1,234 @@
+---
+import BreakText from "./BreakText.astro";
+import Base from "../layouts/Base.astro";
+import { content, otherLang, privacyPath } from "../data";
+import type { Lang } from "../data/types";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = content[lang];
+const email = c.contact.email;
+
+// Solo fatti verificabili: se il sito cambia (statistiche, moduli, risorse esterne) questa pagina va aggiornata.
+const meta = {
+  it: {
+    title: "Informativa sulla privacy",
+    description:
+      "Informativa sulla privacy del sito di Andrea Turetta: niente cookie, niente statistiche, niente moduli.",
+  },
+  en: {
+    title: "Privacy notice",
+    description: "Privacy notice for Andrea Turetta's website: no cookies, no analytics, no forms.",
+  },
+}[lang];
+
+const pagesDocs = "https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection";
+const githubPrivacy = "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement";
+const garante = "https://www.garanteprivacy.it";
+const githubQuote =
+  "When a GitHub Pages site is visited, the visitor's IP address is logged and stored for security purposes, regardless of whether the visitor has signed into GitHub or not.";
+---
+
+<Base
+  lang={lang}
+  title={`${meta.title} | ${c.name}`}
+  description={meta.description}
+  path={privacyPath(lang)}
+  altPath={privacyPath(otherLang(lang))}
+>
+  <article class="wrap privacy" aria-labelledby="privacy-title">
+    <h1 id="privacy-title" class="privacy__title">{meta.title}</h1>
+    {
+      lang === "it" ? (
+        <>
+          <p class="privacy__updated">Ultimo aggiornamento: <time datetime="2026-11-10">10 novembre 2026</time></p>
+
+          <h2>Titolare del trattamento</h2>
+          <p>
+            Il titolare del trattamento per questo sito è {c.name}. Per qualsiasi domanda sui tuoi dati puoi scrivere
+            a <a class="prose-link" href={`mailto:${email}`}><BreakText text={email} /></a>.
+          </p>
+
+          <h2>Cosa fa e cosa non fa il sito</h2>
+          <ul>
+            <li>Non imposta cookie.</li>
+            <li>Non usa strumenti di statistica.</li>
+            <li>Non ha moduli da compilare.</li>
+            <li>Non carica risorse da terze parti: anche i caratteri tipografici sono ospitati sul sito.</li>
+          </ul>
+          <p>
+            La scelta tra tema chiaro e scuro viene salvata solo nel localStorage del browser, sul tuo dispositivo, e
+            non viene mai inviata altrove.
+          </p>
+
+          <h2>Hosting su GitHub Pages</h2>
+          <p>Il sito è ospitato su GitHub Pages. La documentazione di GitHub dice:</p>
+          <blockquote lang="en">
+            <p>“{githubQuote}”</p>
+          </blockquote>
+          <p>
+            In italiano: quando si visita un sito su GitHub Pages, l'indirizzo IP del visitatore viene registrato e
+            conservato per motivi di sicurezza, che abbia effettuato l'accesso a GitHub o no. Fonte: <a class="prose-link" href={pagesDocs} hreflang="en">documentazione di GitHub Pages</a>, sezione “Data collection”.
+          </p>
+          <p>
+            Questo trattamento è svolto da GitHub (GitHub, Inc. / GitHub B.V.) secondo la sua informativa, il <a class="prose-link" href={githubPrivacy} hreflang="en">GitHub General Privacy Statement</a>. GitHub dichiara di rispettare l'EU-U.S. Data Privacy Framework.
+          </p>
+
+          <h2>Link a servizi esterni</h2>
+          <p>
+            I link all'email e al profilo LinkedIn aprono servizi esterni (il tuo programma di posta, LinkedIn), che
+            trattano i dati secondo le proprie informative.
+          </p>
+
+          <h2>I tuoi diritti</h2>
+          <p>
+            Il Regolamento (UE) 2016/679 (GDPR), agli articoli dal 15 al 22, ti dà il diritto di chiedere l'accesso
+            ai tuoi dati personali, la rettifica, la cancellazione, la limitazione del trattamento, di opporti al
+            trattamento e di ottenere la portabilità dei dati. Per esercitarli scrivi
+            a <a class="prose-link" href={`mailto:${email}`}><BreakText text={email} /></a>.
+          </p>
+          <p>
+            Puoi anche proporre reclamo al Garante per la protezione dei dati personali
+            (<a class="prose-link" href={garante}>www.garanteprivacy.it</a>).
+          </p>
+        </>
+      ) : (
+        <>
+          <p class="privacy__updated">Last updated: <time datetime="2026-11-10">10 November 2026</time></p>
+
+          <h2>Data controller</h2>
+          <p>
+            The data controller for this website is {c.name}. For any question about your data, write
+            to <a class="prose-link" href={`mailto:${email}`}><BreakText text={email} /></a>.
+          </p>
+
+          <h2>What the site does and does not do</h2>
+          <ul>
+            <li>It sets no cookies.</li>
+            <li>It uses no analytics.</li>
+            <li>It has no forms.</li>
+            <li>It loads no third-party resources: the fonts are hosted on the site itself.</li>
+          </ul>
+          <p>
+            Your choice between the light and dark theme is stored only in your browser's localStorage, on your
+            device, and is never sent anywhere.
+          </p>
+
+          <h2>Hosting on GitHub Pages</h2>
+          <p>The site is hosted on GitHub Pages. GitHub's documentation says:</p>
+          <blockquote>
+            <p>“{githubQuote}”</p>
+          </blockquote>
+          <p>
+            Source: <a class="prose-link" href={pagesDocs}>GitHub Pages documentation</a>, section “Data collection”.
+          </p>
+          <p>
+            This processing is carried out by GitHub (GitHub, Inc. / GitHub B.V.) under its own policy, the <a class="prose-link" href={githubPrivacy}>GitHub General Privacy Statement</a>. GitHub states that it complies with the EU-U.S. Data Privacy Framework.
+          </p>
+
+          <h2>Links to external services</h2>
+          <p>
+            The email and LinkedIn links open external services (your email program, LinkedIn), which process data
+            under their own policies.
+          </p>
+
+          <h2>Your rights</h2>
+          <p>
+            Under Regulation (EU) 2016/679 (GDPR), articles 15 to 22, you have the right to request access to your
+            personal data, rectification, erasure and restriction of processing, to object to processing and to data
+            portability. To exercise them, write
+            to <a class="prose-link" href={`mailto:${email}`}><BreakText text={email} /></a>.
+          </p>
+          <p>
+            You can also lodge a complaint with the Italian data protection authority, the Garante per la protezione
+            dei dati personali (<a class="prose-link" href={garante} hreflang="it">www.garanteprivacy.it</a>).
+          </p>
+        </>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .privacy {
+    padding-top: var(--space-16);
+  }
+
+  .privacy > :global(*) {
+    max-width: 68ch;
+  }
+
+  .privacy__title {
+    margin: 0;
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--text);
+    text-wrap: balance;
+  }
+
+  .privacy > .privacy__updated {
+    margin: var(--space-4) 0 var(--space-8);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--text-subtle);
+  }
+
+  .privacy h2 {
+    margin: var(--space-10) 0 var(--space-3);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .privacy p,
+  .privacy li {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-body);
+  }
+
+  .privacy p {
+    margin: 0 0 var(--space-4);
+  }
+
+  .privacy ul {
+    display: grid;
+    gap: var(--space-1);
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .privacy li {
+    position: relative;
+    padding-left: var(--space-5);
+  }
+
+  .privacy li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.85em;
+    width: 7px;
+    height: 1px;
+    background: var(--text-subtle);
+  }
+
+  .privacy blockquote {
+    margin: 0 0 var(--space-4);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--border-strong);
+  }
+
+  .privacy blockquote p {
+    margin: 0;
+    color: var(--text);
+  }
+</style>
