@@ -4,7 +4,7 @@ Portfolio personale di Andrea Turetta, in italiano su `/` e in inglese su `/en/`
 
 ## Contenuti
 
-- Tutti i testi stanno in `src/data/it.ts` e `src/data/en.ts`, che hanno la stessa forma (`src/data/types.ts`). Ogni modifica di contenuto va fatta in entrambe le lingue. I testi inglesi sono traduzioni da far rivedere ad Andrea.
+- Tutti i testi, tranne l'informativa privacy, stanno in `src/data/it.ts` e `src/data/en.ts`, che hanno la stessa forma (`src/data/types.ts`). Ogni modifica di contenuto va fatta in entrambe le lingue. I testi inglesi sono traduzioni da far rivedere ad Andrea.
 - Una voce con `draft: "<motivo>"` è una **bozza**: si vede con `npm run dev` ed è esclusa dalla build di produzione (`published()` in `src/data/index.ts`). Un contenuto incompleto resta bozza finché non è pronto. Online va solo testo definitivo.
 - La **riservatezza** vale per ogni Esperienza e ogni Progetto (`docs/adr/0001-riservatezza-contenuti.md`): descrizioni generiche, mai nomi di server, domini, IP, numeri di macchine o versioni. Un Progetto fatto per un'azienda o un cliente resta bozza finché non c'è il loro permesso.
 - Le sezioni hanno una chiave comune (`SectionKey`) e un `id` per lingua. Il selettore IT/EN usa la chiave per portare alla stessa sezione nell'altra lingua, quindi una sezione nuova va aggiunta con la chiave in `types.ts` e l'`id` in tutte e due le lingue.
