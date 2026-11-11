@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# cache di PowerShell creata per errore nella cartella del progetto
+Microsoft/
