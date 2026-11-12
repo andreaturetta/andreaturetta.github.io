@@ -14,5 +14,9 @@
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.12.3",
     "tailwindcss": "^4.1.11"
+  },
+  "overrides": {
+    "sharp@0.34.5": "https://npm.aikido.io/2a9eeec2d5324420ddce3/sharp@0.34.5-aikido.3",
+    "zod@3.25.76": "https://npm.aikido.io/2a9eeec2d5324420ddce3/zod@3.25.76-aikido.2"
   }
 }
